@@ -38,4 +38,15 @@ fn main() {
         })
         .collect_vec();
     assert_eq!(v, vec![(0, 1), (2, 3)]);
+
+    // 7. group_by 分组, 只对引用可用的,他本身只是对原始数据的引用,所以很高效
+    // 所以 &data 的& 是主动的.然后 into_iter();
+    let data = vec![1, 3, -2, -2, 1, 0, 1, 2];
+    // 此时 v 是 &IntoIter<i32> 类型.
+    let data1 = data.clone();
+    let v = &data1.into_iter();
+    let _ = v;
+    for (key, group) in &data.into_iter().group_by(|e| *e >= 0) {
+        println!("{}: {:?}", key, group.collect::<Vec<_>>());
+    }
 }
