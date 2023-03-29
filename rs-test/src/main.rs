@@ -1,6 +1,8 @@
 use itertools::EitherOrBoth::{Both, Right};
 use itertools::Itertools;
 
+/// 文档地址 https://docs.rs/itertools/latest/itertools/
+/// Itertools 文档地址 https://docs.rs/itertools/latest/itertools/trait.Itertools.html
 fn main() {
     // 1. interleave 就是轮流消耗 2 个 iterator,直到他们都消耗完.
     let v = (1..7).interleave([-1, -2]).collect_vec();
@@ -48,5 +50,13 @@ fn main() {
     let _ = v;
     for (key, group) in &data.into_iter().group_by(|e| *e >= 0) {
         println!("{}: {:?}", key, group.collect::<Vec<_>>());
+    }
+
+    // 8. chunks, 按照指定的大小,分组
+    // 会安装 3 的大小,分为 3 个一组,最后剩下的不够 3 个的,就不分组了
+    // 结果是 [1, 3, -2], [-2, 1, 0], [1, 2]
+    let data = vec![1, 3, -2, -2, 1, 0, 1, 2];
+    for chunk in &data.into_iter().chunks(3) {
+        println!("{:?}", chunk.collect::<Vec<_>>());
     }
 }
